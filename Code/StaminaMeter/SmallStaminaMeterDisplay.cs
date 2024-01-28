@@ -6,6 +6,9 @@ namespace Celeste.Mod.StaminaMeter
 {
     public class SmallStaminaMeterDisplay : BaseStaminaMeterDisplay
     {
+        private static Vector2 screenSize = new Vector2(1920, 1080);
+        private static Vector2 meterSize = new Vector2(96, 12);
+
         public override void Update()
         {
             base.Update();
@@ -26,12 +29,12 @@ namespace Celeste.Mod.StaminaMeter
             // support for mirror mode
             if (SaveData.Instance != null && SaveData.Instance.Assists.MirrorMode)
             {
-                playerPosition.X = 1920f - playerPosition.X;
+                playerPosition.X = screenSize.X - playerPosition.X;
             }
             // support for upside down mode in extended variants
             if (Input.MoveY.Inverted)
             {
-                playerPosition.Y = 1080f - playerPosition.Y + 96f;
+                playerPosition.Y = screenSize.Y - playerPosition.Y + 96f;
             }
 
             switch (StaminaMeterModule.Settings.SmallMeterPosition)
@@ -47,34 +50,34 @@ namespace Celeste.Mod.StaminaMeter
             }
 
             // outline
-            Draw.Rect(meterPosition.X - 1f, meterPosition.Y - 1f, 98f, 14f, lineColor);
+            Draw.Rect(meterPosition.X - 1f, meterPosition.Y - 1f, meterSize.X + 2, meterSize.Y + 2, lineColor);
             // fill
-            Draw.Rect(meterPosition.X, meterPosition.Y, 96f, 12f, fillColor);
+            Draw.Rect(meterPosition.X, meterPosition.Y, meterSize.X, meterSize.Y, fillColor);
 
-            // show stamina
-            if (drawStamina > 0f)
+            // show the meter
+            if (lightRatio > 0f)
             {
                 // no, just drawing two rectangles at 50% opacity does not work. i've tried.
-                if (drawStamina > currentStamina)
+                if (lightRatio > darkRatio)
                 {
-                    Draw.Rect(meterPosition.X, meterPosition.Y, 96f * (drawStamina / 110f), 12f, colorDark);
-                    if (currentStamina > 0)
+                    Draw.Rect(meterPosition.X, meterPosition.Y, meterSize.X * darkRatio, meterSize.Y, colorDark);
+                    if (darkRatio > 0)
                     {
-                        Draw.Rect(meterPosition.X, meterPosition.Y, 96f * (currentStamina / 110f), 12f, color);
+                        Draw.Rect(meterPosition.X, meterPosition.Y, meterSize.X * lightRatio, meterSize.Y, colorLight);
                     }
                 }
                 else
                 {
-                    if (currentStamina > 0)
+                    if (darkRatio > 0)
                     {
-                        Draw.Rect(meterPosition.X, meterPosition.Y, 96f * (currentStamina / 110f), 12f, colorDark);
+                        Draw.Rect(meterPosition.X, meterPosition.Y, meterSize.X * darkRatio, meterSize.Y, colorDark);
                     }
-                    Draw.Rect(meterPosition.X, meterPosition.Y, 96f * (drawStamina / 110f), 12f, color);
+                    Draw.Rect(meterPosition.X, meterPosition.Y, meterSize.X * lightRatio, meterSize.Y, colorLight);
                 }
             }
 
-            // low stamina marker
-            Draw.Rect(meterPosition.X + (192f / 11f), meterPosition.Y, 1, 12f, lineColor);
+            // low marker
+            Draw.Rect(meterPosition.X + meterSize.X * lowMarkRatio, meterPosition.Y, 1, meterSize.Y, lineColor);
         }
     }
 
