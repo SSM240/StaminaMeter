@@ -54,30 +54,30 @@ namespace Celeste.Mod.StaminaMeter
             // fill
             Draw.Rect(meterPosition.X, meterPosition.Y, meterSize.X, meterSize.Y, fillColor);
 
-            // show stamina
-            if (drawStamina > 0f)
+            // show the meter
+            if (lightRatio > 0f)
             {
                 // no, just drawing two rectangles at 50% opacity does not work. i've tried.
-                if (drawStamina > currentStamina)
+                if (lightRatio > darkRatio)
                 {
-                    Draw.Rect(meterPosition.X, meterPosition.Y, meterSize.X * (drawStamina / 110f), meterSize.Y, colorDark);
-                    if (currentStamina > 0)
+                    Draw.Rect(meterPosition.X, meterPosition.Y, meterSize.X * darkRatio, meterSize.Y, colorDark);
+                    if (darkRatio > 0)
                     {
-                        Draw.Rect(meterPosition.X, meterPosition.Y, meterSize.X * (currentStamina / 110f), meterSize.Y, color);
+                        Draw.Rect(meterPosition.X, meterPosition.Y, meterSize.X * lightRatio, meterSize.Y, colorLight);
                     }
                 }
                 else
                 {
-                    if (currentStamina > 0)
+                    if (darkRatio > 0)
                     {
-                        Draw.Rect(meterPosition.X, meterPosition.Y, meterSize.X * (currentStamina / 110f), meterSize.Y, colorDark);
+                        Draw.Rect(meterPosition.X, meterPosition.Y, meterSize.X * darkRatio, meterSize.Y, colorDark);
                     }
-                    Draw.Rect(meterPosition.X, meterPosition.Y, meterSize.X * (drawStamina / 110f), meterSize.Y, color);
+                    Draw.Rect(meterPosition.X, meterPosition.Y, meterSize.X * lightRatio, meterSize.Y, colorLight);
                 }
             }
 
-            // low stamina marker
-            Draw.Rect(meterPosition.X + meterSize.X * (20f / 111f), meterPosition.Y, 1, meterSize.Y, lineColor);
+            // low marker
+            Draw.Rect(meterPosition.X + meterSize.X * lowMarkRatio, meterPosition.Y, 1, meterSize.Y, lineColor);
         }
     }
 

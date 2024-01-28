@@ -23,11 +23,17 @@ namespace Celeste.Mod.StaminaMeter
         public bool SmallMeterEnabled { get; set; } = false;
         public bool LargeMeterEnabled { get; set; } = false;
 
+        public bool StaminaMeterEnabled { get; set; } = true;
+        public bool StarFlyTimerEnabled { get; set; } = true;
+
         public SmallMeterPositions SmallMeterPosition { get; set; } = SmallMeterPositions.Above;
         public LargeMeterPositions LargeMeterPosition { get; set; } = LargeMeterPositions.TopRight;
 
         public string NormalStaminaColor { get; set; } = "00ff00";
         public string LowStaminaColor { get; set; } = "ff0000";
+
+        public string NormalStarFlyTimeColor { get; set; } = "ffff00";
+        public string LowStarFlyTimeColor { get; set; } = "ff0000";
 
         [SettingIgnore]
         public string FillColor { get; set; } = "000000";
